@@ -1,0 +1,213 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+Aritmetica en R
+
+```{r}
+3 + 5 # Suma
+6 + 10
+
+5 - 1
+5 * 2
+(5 - 2) / 2
+2 ^ 5
+28 %% 6
+
+```
+
+Asignación de variables
+
+```{r}
+
+x <- 10
+y <- 15
+total = x + y
+total
+
+```
+Tipos de datos
+
+```{r}
+my_character <- "universe"
+my_logical <- FALSE
+
+my_character
+my_logical
+
+```
+
+Clase/Tipo de datos
+
+```{r}
+class(my_character)
+class(my_logical)
+```
+Vectores
+
+```{r}
+numeric_vector <- c(1, 10, 49)
+numeric_vector
+
+character_vector <- c("a","b","c")
+boolean_vector <- c(TRUE, FALSE, TRUE)
+
+character_vector
+boolean_vector
+```
+```{r}
+numeric_vector<-c(1,10,49)
+character_vector<-c("a","b","c")
+boolean_vector<-c(FALSE,TRUE,TRUE)
+
+numeric_vector
+character_vector
+boolean_vector
+
+```
+Nombrando un Vector
+
+```{r}
+poker_vector <- c(140, -50, 20, -120, 240)
+roulette_vector <- c(-24, -50, 100, -350, 10)
+
+names(poker_vector) <- c("Monday","Tuesday","Wednesday","Thursday","Friday")
+poker_vector
+
+names(roulette_vector) <- c("Monday","Tuesday","Wednesday","Thursday","Friday")
+roulette_vector
+
+```
+Comparando y Seleccionando
+
+```{r}
+age <- 17
+result <- age >= 18
+result
+
+A_vector <- c(1,2,3)
+b_vector <- c(4,5,6)
+
+total_vector <- A_vector + b_vector
+
+total_vector
+
+total_daily <- poker_vector + roulette_vector
+total_daily
+
+total_poker <- sum(poker_vector)
+total_poker
+
+total_roulette <- sum(roulette_vector)
+
+sum_total <- sum(total_poker , total_roulette)
+sum_total 
+
+poker_vector
+poker_vector[3]
+poker_vector[c(1,3,4)]
+
+roulette_vector[2:5]
+
+poker_start <- poker_vector[c("Monday","Tuesday","Wednesday")]
+mean(poker_start)
+
+selection_vector <- poker_vector > 0
+selection_vector
+
+poker_winning_days <- poker_vector[selection_vector]
+poker_winning_days
+
+```
+
+
+
+
+```{r}                         
+new_hope<- c(460.98,314.4)
+empire_strike <- c(29980.475,247.900)
+return_jedi<-c(30.360,165.8)
+
+box_office<- c(new_hope,empire_strike,return_jedi)  #la c significa coleccion en lenguaje R, es para crear colecciones
+box_office
+
+stars_wars_matriz<- matrix(box_office,byrow = TRUE, nrow = 3)
+
+region<-c("US", "non-US")
+titles<- c("A new hope", "The Empire Strikes Back", "Return of the Jedi")
+colnames(stars_wars_matriz)<-region
+rownames(stars_wars_matriz)<-titles
+
+```
+ rowSums()
+ 
+```{r}
+worldwide_vector<- rowSums(stars_wars_matriz)
+all_wars_variable<- cbind(stars_wars_matriz,worldwide_vector)
+
+worldwide_cols<-colSums(all_wars_variable)
+
+all_wars_variable<-rbind(all_wars_variable,worldwide_cols)
+```
+ 
+```{r}
+non_us_all<-all_wars_variable[1:3,2]
+mean(non_us_all)
+```
+Factor: Esta funcion sirve para sacar las caracteristicas de un vector.
+
+```{r}
+sex_vector<-c("Male", "Female", "Female","Male","Male")
+
+factor_sex_vector<- factor(sex_vector)
+temperature_vector<-c("High","Low", "High", "Low", "Medium")
+factor_temperatur_vector<-factor(temperature_vector,order=TRUE, levels=c("Low", "Medium", "High"))
+```
+
+```{r}
+survey_vector<-c("M","F","F","M","M")
+factor_survey_vector<-factor(survey_vector)
+
+levels(factor_survey_vector) <- c("Female", "Male")
+
+```
+
+Summarizing a factor
+```{r}
+summary(survey_vector)
+summary(factor_survey_vector)
+
+male<-factor_survey_vector[1]
+
+female<-factor_survey_vector[2]
+
+male>female  #Esto no lo podemos hacer porque estas son categorias nominales
+
+speed_vector<-c("medium","slow", "slow","medium", "fast")
+factor_speed_vector <-factor(speed_vector, ordered = TRUE, levels=c("slow","medium", "fast"))
+
+
+da2<-factor_speed_vector[2]  #al llamar de esta manera al vector, no se llama en funcion del nivel sino que en funcion del orden en el vector.
+da3<-factor_speed_vector[1]
+
+
+da2
+da3
+
+da2<da3
+```
+
