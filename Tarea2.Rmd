@@ -1,0 +1,149 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Funciones en R
+
+Una función es un conjunto de declaraciones organizadas juntas para realizar una tarea específica. R tiene una gran cantidad de funciones integradas y el usuario puede crear sus propias funciones.
+
+En R, una función es un objeto, por lo que el intérprete de R puede pasar el control a la función, junto con los argumentos que pueden ser necesarios para que la función realice las acciones.
+
+La función, a su vez, realiza su tarea y devuelve el control al intérprete, así como cualquier resultado que pueda almacenarse en otros objetos.
+Definición de función
+
+Una función R se crea utilizando la función de palabra clave. La sintaxis básica de la definición de una función R es la siguiente:
+
+```{r}
+function_name <- function(arg_1, arg_2, ...) {
+   Function body 
+}
+```
+
+Componentes de la función
+
+Las diferentes partes de una función son:
+
+    Nombre de la función: este es el nombre real de la función. Se almacena en el entorno R como un objeto con este nombre.
+
+    Argumentos: un argumento es un marcador de posición. Cuando se invoca una función, se pasa un valor al argumento. Los argumentos son          opcionales; es decir, una función puede no contener argumentos. Además, los argumentos pueden tener valores predeterminados.
+
+    Cuerpo de la función: el cuerpo de la función contiene una colección de declaraciones que define lo que hace la función.
+
+    Valor de retorno: el valor de retorno de una función es la última expresión en el cuerpo de la función que se evaluará.
+
+R tiene muchas funciones integradas que se pueden llamar directamente en el programa sin definirlas primero. También podemos crear y utilizar nuestras propias funciones denominadas funciones definidas por el usuario.
+Función incorporada
+
+Ejemplos simples de funciones integradas son seq (), mean (), max (), sum (x) y paste (...), etc. Son llamadas directamente por programas escritos por el usuario. Puede consultar las funciones R más utilizadas.
+
+```{r}
+# Create a sequence of numbers from 32 to 44.
+print(seq(32,44))
+
+# Find mean of numbers from 25 to 82.
+print(mean(25:82))
+
+# Find sum of numbers frm 41 to 68.
+print(sum(41:68))
+```
+
+Función definida por el usuario
+
+Podemos crear funciones definidas por el usuario en R. Son específicas de lo que quiere un usuario y una vez creadas se pueden usar como las funciones integradas. A continuación se muestra un ejemplo de cómo se crea y se usa una función.  
+
+```{r}
+# Create a function to print squares of numbers in sequence.
+new.function <- function(a) {
+   for(i in 1:a) {
+      b <- i^2
+      print(b)
+   }
+}	
+```
+
+
+
+FUNCION APPLY
+
+La colección apply () se incluye con el paquete r essential si instala R con Anaconda. La función de aplicar en R se puede alimentar con muchas funciones para realizar aplicaciones redundantes en una colección de objetos (marco de datos, lista, vector, etc.). El propósito de apply () es principalmente evitar usos explícitos de construcciones de bucle. Se pueden usar para una lista de entrada, matriz o matriz y aplicar una función. Cualquier función se puede pasar a apply ().
+
+apply () toma el marco de datos o la matriz como entrada y da la salida en vector, lista o matriz. Aplicar función en R se usa principalmente para evitar usos explícitos de construcciones de bucle. Es la más básica de todas las colecciones que se puede utilizar sobre una matriz.
+
+Esta función toma 3 argumentos:
+
+```{r}
+apply(X, MARGIN, FUN)
+Here:
+-x: an array or matrix
+-MARGIN:  take a value or range between 1 and 2 to define where to apply the function:
+-MARGIN=1`: the manipulation is performed on rows
+-MARGIN=2`: the manipulation is performed on columns
+-MARGIN=c(1,2)` the manipulation is performed on rows and columns
+-FUN: tells which function to apply. Built functions like mean, median, sum, min, max and even user-defined functions can be applied>
+```
+
+El ejemplo más simple es sumar una matriz sobre todas las columnas. El código apply (m1, 2, sum) aplicará la función de suma a la matriz 5x6 y devolverá la suma de cada columna accesible en el conjunto de datos.
+
+```{r}
+m1 <- matrix(C<-(1:10),nrow=5, ncol=6)
+m1
+a_m1 <- apply(m1, 2, sum)
+a_m1
+```
+función lapply ()
+
+La función lapply () es útil para realizar operaciones en objetos de lista y devuelve un objeto de lista de la misma longitud que el conjunto original. lappy () devuelve una lista de longitud similar a la del objeto de lista de entrada, cada elemento del cual es el resultado de aplicar FUN al elemento correspondiente de la lista. Lapply en R toma la lista, el vector o el marco de datos como entrada y da la salida en la lista.
+
+```{r}
+lapply(X, FUN)
+Arguments:
+-X: A vector or an object
+-FUN: Function applied to each element of x	
+```
+
+l en lapply () significa lista. La diferencia entre lapply () y apply () se encuentra entre el retorno de salida. La salida de lapply () es una lista. lapply () se puede utilizar para otros objetos como marcos de datos y listas.
+
+La función lapply () no necesita MARGEN.
+
+Un ejemplo muy sencillo puede ser cambiar el valor de cadena de una matriz a minúsculas con la función tolower. Construimos una matriz con el nombre de las películas famosas. El nombre está en mayúsculas.
+
+```{r}
+movies <- c("SPYDERMAN","BATMAN","VERTIGO","CHINATOWN")
+movies_lower <-lapply(movies, tolower)
+str(movies_lower)
+```
+Podemos usar unlist () para convertir la lista en un vector.
+
+```{r}
+movies_lower <-unlist(lapply(movies,tolower))
+str(movies_lower)
+```
+
+función sapply ()
+
+La función sapply () toma una lista, vector o marco de datos como entrada y da salida en vector o matriz. Es útil para operaciones en objetos de lista y devuelve un objeto de lista de la misma longitud que el conjunto original. La función Sapply en R hace el mismo trabajo que la función lapply () pero devuelve un vector.
+```{r}
+sapply(X, FUN)
+Arguments:
+-X: A vector or an object
+-FUN: Function applied to each element of x
+```
+Podemos medir la velocidad mínima y las distancias de frenado de los automóviles a partir del conjunto de datos de automóviles.
+```{r}
+dt <- cars
+lmn_cars <- lapply(dt, min)
+smn_cars <- sapply(dt, min)
+lmn_cars
+```
+Funcion Vapply()
+Vapply es similar a sapply, pero requiere que especifique qué tipo de datos espera que los argumentos para vapply sean vapply (X, FUN, FUN.VALUE). FUN.VALUE es donde especifica el tipo de datos que espera. Espero que cada elemento de la lista devuelva un solo valor numérico, por lo que FUN.VALUE = numérico (1).
+```{r}
+vapply(vec, sum, numeric(1))
+```
+
+
+
+
+
+
