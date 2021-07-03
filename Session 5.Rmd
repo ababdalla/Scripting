@@ -1,0 +1,83 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Introduction to Tidyverse
+
+```{r}
+library(gapminder)
+library(dplyr)
+
+gapminder
+
+```
+Filtering
+```{r}
+gapminder %>%  #pipe
+  filter(year==1957)
+```
+Arrange
+```{r}
+gapminder %>%
+  arrange(lifeExp)
+
+gapminder %>%
+  arrange(desc(lifeExp))
+
+
+```
+The verb mutate
+```{r}
+gapminder %>%
+  mutate(lifeExp=12*lifeExp)
+
+gapminder %>%
+  mutate(lifeExpMonths=12*lifeExp)
+
+```
+Combining filter, mutate and arrange
+```{r}
+gapminder %>%
+  filter(year==2007) %>%
+  mutate(lifeExpMonths=12*lifeExp) %>%
+  arrange(desc(lifeExpMonths))
+
+```
+ggplot2 # lo que esta funcion hace es que construye graficas
+
+```{r}
+library(ggplot2)
+gapminder_1952<-gapminder %>%  #creamos una variable con estos datos del data set de Gapminder
+  filter(year==1952)
+
+ggplot(gapminder_1952,aes(x=pop,y=gdpPercap)) +
+  geom_point()
+
+#aqui llamamos a una funcion de ggplot que nos permite crear una grafica, en este caso la info para la grafica la obtenemos de de la variable "gapminder_1952 y luego con "aes" obtenemos la aesthetics de la grafica y definimos el x & y de la grafica
+
+#al darle el signo "+" nos permite agregar otra instruccion a la funcion lo cual nos permite en este caso, definir cual tipo de grafico necesitamos, en este caso se decidio usar el grafico "geo_point()" que es una grafica de puntos.
+
+ 
+```
+Log Scaling
+Cuando se trabaja en visualizacion de datos, se puede ver como lo que pasa en la grafica anterior, en ese caso se ve una gran concentracion de datos en un solo punto y no deja ver muy bien lo que que esta pasando ahi adentro, en esos casos se aplica una visualicacion en funcion de "Escalas logartimicas"
+
+```{r}
+ggplot(gapminder_1952,aes(x=pop, y=gdpPercap))+
+  geom_point()+
+  scale_x_log10()+
+  scale_y_log10()
+#de esta manera se puede lograr una visualisacion mucho mas entendible de lo que esta pasando, en funcion de lo que aparece aqui 
+```
+Additional Aesthetics
+El color forma parte de la estica de las graficas
+```{r}
+ggplot(gapminder_1952,aes(x=pop, y=lifeExp, color=continent))+
+  geom_point()+
+  scale_x_log10()+
+  scale_y_log10()
+
+#siempre que se quiere agregar color se debe agregar la variable sobre la que se quiere agregar el color, como en este caso se agrego a la variable "Continente"
+```
+
