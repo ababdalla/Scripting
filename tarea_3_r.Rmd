@@ -1,0 +1,40 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+dataset_results<-read.csv("C:/Users/abdel/Desktop/primary_results.csv")
+unique(dataset_results$county)
+```
+
+1. Filtrar los votos del estado de Florida:
+
+```{r}
+library(dplyr)
+filter(dataset_results, state=="Florida", candidate %in% c("Hillary Clinton","Donald Trump"))  #2.1 Filtrar votos para Hillary Clinton & Donald Trump
+
+filter(dataset_results,county=="Shelby", party=="Democrat") #2.2 Filtrar votos para Party Democrat & Shelby County
+
+alabamaVotes<-filter(dataset_results, state=="Alabama")
+sum(alabamaVotes$votes)  #2.3 Filtrar votos para el estado de Alabama, la cantidad de votos es de 1,223,959
+```
+3. Utilice la funcion Select y arrange para el siguiente filtrado
+```{r}
+dataset_results %>%
+  filter(state=="Texas") %>%
+  filter(county=="Denton") %>%
+  select(party, candidate, votes) %>%
+  arrange(votes)
+
+```
+4. Utilice el verbo mutate y arrange para el siguiente filtrado
+```{r}
+dataset_results%>%
+  filter(party=="Republican") %>%
+  filter(candidate=="Ted Cruz") %>%
+  filter(state=="Alaska") %>%
+  mutate(vote_count=votes/fraction_votes)%>%
+  arrange(vote_count)
+```
+
