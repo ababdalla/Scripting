@@ -1,0 +1,131 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Grouping and summarizing:
+The summarize verb-- mean() and sum() are only two of the funtions R provides for summarizing a collection of numbers. 
+
+```{r}
+library(gapminder)
+library(dplyr)
+library(tidyverse)
+
+gapminder %>%
+  summarize(medianLifeExp=median(lifeExp))
+
+gapminder %>%
+  filter(year==1957) %>%
+  summarize(medianLifeExp=median(lifeExp))
+
+gapminder %>%
+  filter(year==1957) %>%
+  summarise(medianLifeExp=median(lifeExp), max(gdpPercap))
+```
+The group_by verb
+Most data operations are done on groups defined by variables. group_ny() takes an existing data frame and converts it into a grouped data frame where operations are performed "by group"
+```{r}
+gapminder %>%
+  group_by(year) %>%
+  summarise(medianLifeExp = median(lifeExp), max(gdpPercap))
+```
+```{r}
+gapminder %>%
+  group_by(continent, year) %>%
+  summarise(medianLifeExp = median(lifeExp), max(gdpPercap))
+```
+```{r}
+by_year <-gapminder %>%
+  group_by(year) %>%
+  summarise(medianLifeExp = median(lifeExp), max(gdpPercap))
+
+ggplot(by_year, aes(x=year, y=medianLifeExp))+
+  geom_point()
+```
+```{r}
+by_year_continent <- gapminder %>%
+  group_by(continent, year) %>%
+  summarise(medianGdpPercap = median(gdpPercap))
+
+ggplot(by_year_continent, aes(x=year, y=medianGdpPercap, color=continent))+
+  geom_point()
+```
+Line Plots:
+A line plot is useful for visualizing trends over time. In this excercise, you'll examine how the median GDP per capita has changed over time.
+```{r}
+by_year<- gapminder %>%
+  group_by(year) %>%
+  summarise(medianGdpPercap = median(gdpPercap))
+
+ggplot(by_year, aes(x=year, y=medianGdpPercap))+
+  geom_line()
+```
+```{r}
+by_year_continent<- gapminder %>%
+  group_by(year, continent) %>%
+  summarise(medianGdpPercap = median(gdpPercap))
+
+ggplot(by_year_continent, aes(x=year, y=medianGdpPercap, color=continent))+
+  geom_line()
+
+```
+Bar Plots:
+A bar plot is useful for visualizing summary statistics, such as the median GDP in each continent
+```{r}
+oceania_1952 <- gapminder %>%
+  filter(continent == "Oceania", year==1952)
+
+oceania_1952
+
+ggplot(oceania_1952, aes(x=country, y=gdpPercap, fill=country))+
+  geom_col()
+```
+
+Histograms:
+A histogram is useful for examining the distribution of a numeric variable.
+```{r}
+
+gapminder_1952<- gapminder%>%
+  filter(year==1952) %>%
+  mutate(pop_by_mil=pop/1000000)
+
+ggplot(gapminder_1952, aes(x=pop_by_mil))+
+  geom_histogram(bins = 50)
+
+#los bins son la cantidad de rangos que se establecen dentro de la grafica.
+```
+```{r}
+gapminder_1952<- gapminder%>%
+  filter(year==1952) %>%
+  mutate(pop_by_mil=pop/1000000)
+
+ggplot(gapminder_1952, aes(x=pop_by_mil))+
+  geom_histogram(bins = 50)+
+  scale_x_log10()
+```
+Box Plots
+A boxplot is useful for comparing a distribution of values across several groups, in this excercise youll examine the distribution of GDP per capita by continent.
+
+```{r}
+
+gapminder_1952<- gapminder%>%
+  filter(year==1952)
+
+ggplot(gapminder_1952, aes(x=continent, y=gdpPercap, fill=continent))+
+  geom_boxplot()+
+  scale_y_log10()
+```
+
+Data manipulation with dplyr
+```{r}
+counties<- read.csv("counties.csv")
+```
+```{r}
+counties %>%
+  select(state, county, population, men, women) %>%
+  mutate(proportion_men = men/population) %>%
+  filter(population >1000) %>%
+  arrange(desc(proportion_men))
+  
+```
+
