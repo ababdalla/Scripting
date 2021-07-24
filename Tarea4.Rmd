@@ -1,0 +1,66 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+diamonds<-read_csv("diamonds.csv")
+library(tidyverse)
+str(diamonds) #comando para investigar la base de datos y ver su estructura
+```
+Dispercion
+```{r}
+diamonds %>%
+  ggplot(aes(x = carat, y= price, color=clarity))+
+  geom_point()+
+  scale_x_log10()
+```
+Histograma
+```{r}
+diamonds %>%
+  ggplot(aes(x=price, color=cut))+
+  geom_histogram(bins=40)
+```
+
+
+```{r}
+diamonds %>%
+  ggplot(aes(x=price, color=cut))+
+  geom_histogram(bins=40)+
+  scale_x_log10()
+```
+Boxplots
+```{r}
+diamonds %>%
+  ggplot(aes(x=cut, y=price, fill=cut))+
+  geom_boxplot()
+```
+Faceting
+```{r}
+  filtered_price<-diamonds %>%
+  filter(price>1000, cut %in% c("Good", "Ideal", "Premium"))
+  filtered_price %>%
+    ggplot(aes(x=cut, y=depth, fill=cut))+
+    geom_col()+
+    facet_wrap(~clarity)
+  
+```
+Grouping and summarizing
+
+```{r}
+median_dimension_diamond<-diamonds %>%
+  group_by(cut) %>%
+  summarise(mediaX=mean(x), mediaY=mean(y), mediaZ=mean(z),n=n())
+median_dimension_diamond
+```
+```{r}
+cut_premium<-diamonds %>%
+  filter(cut=="Premium") %>%
+  group_by(clarity) %>%
+  summarise(minPrice=min(price), maxPrice=max(price))
+```
+```{r}
+cut_premium %>%
+  ggplot(aes(x=clarity,y=maxPrice,fill=clarity)) +
+  geom_col()
+```
+
